@@ -1,0 +1,15 @@
+machine:
+  services:
+    - docker
+dependencies:
+  cache_directories:
+    - "~/docker-postgresql"
+  override:
+    - docker info
+    - if [[ -e ~/docker-postgresql/image.tar ]]; then docker load --input ~/docker-postgresql/image.tar; fi
+    - docker build -t grem4/postgresql .
+    - mkdir -p ~/docker-postgresql; docker save --output ~/docker-postgresql/image.tar grem4/postgresql
+test:
+  override:
+    - docker run -d --name=postgresql grem4/postgresql; sleep 10
+    - docker run -it --volumes-from=postgresql grem4/postgresql sudo -u postgres -H psql -c "\conninfo"
