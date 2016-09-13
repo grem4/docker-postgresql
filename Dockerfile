@@ -1,4 +1,4 @@
-FROM sameersbn/ubuntu:14.04.20160827
+FROM grem4/ubuntu
 
 ENV PG_APP_HOME="/etc/docker-postgresql"\
     PG_VERSION=9.5 \
